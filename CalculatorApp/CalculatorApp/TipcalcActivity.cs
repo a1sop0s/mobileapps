@@ -1,4 +1,6 @@
-﻿using Android.App;
+﻿using System;
+using System.Globalization;
+using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
@@ -30,12 +32,22 @@ namespace CalculatorApp
 
         private void _tipEditText_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
-            _tipSeekBar.Progress = int.Parse(_tipEditText.Text ?? string.Empty);
+            _tipSeekBar.Progress = int.Parse(_tipEditText.Text ?? "0");
+            CalculateTip();
         }
 
         private void TipSeekBar_ProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
         {
             _tipEditText.Text = e.Progress.ToString();
+        }
+
+        private void CalculateTip()
+        {
+            var subTotal = double.Parse(_subtotalEditText.Text ?? "0");
+            var tipTotal = 0.01 * int.Parse(_tipEditText.Text ?? "0") * subTotal;
+
+            _tipTotalTextView.Text = "Tip total: " + tipTotal;
+            _billTotalTextView.Text = "Bill total: " + (subTotal + tipTotal);
         }
     }
 }
