@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</RelativeLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button
+            android:text="Kalkulaator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:id="@+id/toCalcButton" 
+    />
+    <Button 
+            android:text="What"
+            android:layout_width="match_parent" 
+            android:layout_height="wrap_content" 
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:id="@+id/toTipCalcButton" 
+    />
+</LinearLayout>
