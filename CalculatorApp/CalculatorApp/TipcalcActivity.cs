@@ -27,13 +27,14 @@ namespace CalculatorApp
             _tipTotalTextView = FindViewById<TextView>(Resource.Id.tipTotalTextView);
 
             _tipSeekBar.ProgressChanged += TipSeekBar_ProgressChanged;
+            _tipSeekBar.ProgressChanged += CalculateTip;
             _tipEditText.TextChanged += _tipEditText_TextChanged;
+            _tipEditText.TextChanged += CalculateTip;
         }
 
         private void _tipEditText_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
             _tipSeekBar.Progress = int.Parse(_tipEditText.Text ?? "0");
-            CalculateTip();
         }
 
         private void TipSeekBar_ProgressChanged(object sender, SeekBar.ProgressChangedEventArgs e)
@@ -41,7 +42,7 @@ namespace CalculatorApp
             _tipEditText.Text = e.Progress.ToString();
         }
 
-        private void CalculateTip()
+        private void CalculateTip(object sender, EventArgs e)
         {
             var subTotal = double.Parse(_subtotalEditText.Text ?? "0");
             var tipTotal = 0.01 * int.Parse(_tipEditText.Text ?? "0") * subTotal;
