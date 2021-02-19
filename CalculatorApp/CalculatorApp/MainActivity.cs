@@ -34,6 +34,7 @@ namespace CalculatorApp
         private void CalcButton_Click(object sender, EventArgs e)
         {
             var intent = new Intent(this, typeof(CalculatorActivity));
+            StartActivity(intent);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, 
