@@ -20,13 +20,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/tipSeekBar" />
     <TextView
-            android:text="Large Text"
+            android:text="Bill total: "
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/billTotalTextView" />
     <TextView
-            android:text="Large Text"
+            android:text="Tip total: "
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -47,8 +47,8 @@ namespace CalculatorApp
             var subTotal = double.Parse(_subtotalEditText.Text ?? "0");
             var tipTotal = 0.01 * int.Parse(_tipEditText.Text ?? "0") * subTotal;
 
-            _tipTotalTextView.Text = "Tip total: " + tipTotal;
-            _billTotalTextView.Text = "Bill total: " + (subTotal + tipTotal);
+            _tipTotalTextView.Text = "Tip total: $" + tipTotal;
+            _billTotalTextView.Text = "Bill total: $" + (subTotal + tipTotal);
         }
     }
 }
