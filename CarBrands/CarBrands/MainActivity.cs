@@ -10,22 +10,23 @@ using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using CarBrands.Models;
+using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace CarBrands
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
-            Android.Support.V7.Widget.Toolbar toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
 
-            FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.toolbar);
+            var fab = FindViewById<FloatingActionButton>(Resource.Id.toolbar);
             if (fab != null) fab.Click += fabOnClick;
 
             var items = new List<Car>
