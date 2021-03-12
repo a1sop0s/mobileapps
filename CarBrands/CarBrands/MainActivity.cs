@@ -31,7 +31,8 @@ namespace CarBrands
 
             var items = new List<Car>
             {
-                new Car {Manufacturer = "Ford", Model = "Focus", kW = 80}
+                new Car { Manufacturer = "Ford", Model = "Focus", Year = 2004, kW = 80 },
+                new Car { Manufacturer = "Mazda", Model = "6", Year = 2006, kW = 122 }
             };
 
             var carListView = FindViewById<ListView>(Resource.Id.carListView);

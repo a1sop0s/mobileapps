@@ -3502,7 +3502,7 @@ namespace CarBrands
 			public const int list_item = 2131230816;
 			
 			// aapt resource value: 0x7F080061
-			public const int manufacturerTextView = 2131230817;
+			public const int manufacturerYearTextView = 2131230817;
 			
 			// aapt resource value: 0x7F080062
 			public const int masked = 2131230818;

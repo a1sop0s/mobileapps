@@ -36,9 +36,9 @@ namespace CarBrands
             if (_context.LayoutInflater != null)
                 view = _context.LayoutInflater.Inflate(Resource.Layout.car_row_layout, null);
             
-            view.FindViewById<TextView>(Resource.Id.manufacturerTextView).Text = _items[position].Manufacturer;
+            view.FindViewById<TextView>(Resource.Id.manufacturerYearTextView).Text = $"{_items[position].Year} {_items[position].Manufacturer}";
             view.FindViewById<TextView>(Resource.Id.modelTextView).Text = _items[position].Model;
-            view.FindViewById<TextView>(Resource.Id.kWTextView).Text = _items[position].kW.ToString();
+            view.FindViewById<TextView>(Resource.Id.kWTextView).Text = $"{_items[position].kW}kW";
             
             return view;
         }
