@@ -18,7 +18,8 @@ namespace StarwarsApp
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             
             var remoteDataService = new RemoteDataService();
-            var data = await remoteDataService.GetStarwarsPeople();
+            var peopleData = await remoteDataService.GetStarwarsPeople();
+            var filmsData = await remoteDataService.GetStarwarsFilms();
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.activity_main);
