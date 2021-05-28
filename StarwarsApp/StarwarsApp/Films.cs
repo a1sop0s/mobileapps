@@ -63,6 +63,4 @@ namespace StarwarsApp
         [JsonProperty("results")]
         public List<FilmDetails> Results { get; set; }
     }
-
-
 }
