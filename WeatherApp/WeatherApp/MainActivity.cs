@@ -24,10 +24,10 @@ namespace WeatherApp
             var weatherService = new WeatherService();
 
             var weatherInfo = await weatherService.GetCityWeather("Tallinn");
-            if (cityTextView != null) cityTextView.Text = weatherInfo.Name;
-            if (tempTextView != null) tempTextView.Text = weatherInfo.Main.Temp.ToString();
+            cityTextView.Text = weatherInfo.Name;
+            tempTextView.Text = weatherInfo.Main.Temp.ToString();
 
-            weatherImage?.SetImageBitmap(await weatherService.GetImageFromUrl($"https://openweathermap.org/img/wn/{weatherInfo.Weather[0].Icon}@2x.png"));
+            weatherImage.SetImageBitmap(await weatherService.GetImageFromUrl($"https://openweathermap.org/img/wn/{weatherInfo.Weather[0].Icon}@2x.png"));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
