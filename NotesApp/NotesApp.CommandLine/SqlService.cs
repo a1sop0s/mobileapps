@@ -17,43 +17,38 @@ namespace NotesApp.CommandLine
 
         public SQLiteConnection CreateConnection()
         {
-            SQLiteConnection sqlite_conn;
-            sqlite_conn = new SQLiteConnection("Data Source=database.dbL;Version=3;New=True;Compress=True;");
-            sqlite_conn.Open();
-            return sqlite_conn;
+            var sqliteConn = new SQLiteConnection("Data Source=database.dbL;Version=3;New=True;Compress=True;");
+            sqliteConn.Open();
+            return sqliteConn;
         }
 
         public void CreateTable(SQLiteConnection conn)
         {
-            SQLiteCommand sqlite_cmd;
-            string create_sql = "CREATE TABLE IF NOT EXISTS NotesTable (id TEXT, heading TEXT, content TEXT, datetime TEXT )";
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = create_sql;
-            sqlite_cmd.ExecuteNonQuery();
+            const string createSql = "CREATE TABLE IF NOT EXISTS NotesTable (id TEXT, heading TEXT, content TEXT, datetime TEXT )";
+            var sqliteCmd = conn.CreateCommand();
+            sqliteCmd.CommandText = createSql;
+            sqliteCmd.ExecuteNonQuery();
         }
 
         public void InsertData(SQLiteConnection conn, Note note)
         {
-            SQLiteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = $"INSERT INTO NotesTable (id, heading, content, datetime) VALUES ('{note.Id}', '{note.Heading}', '{note.Content}', '{note.DateTime}')";
-            sqlite_cmd.ExecuteNonQuery();
+            var sqliteCmd = conn.CreateCommand();
+            sqliteCmd.CommandText = $"INSERT INTO NotesTable (id, heading, content, datetime) VALUES ('{note.Id}', '{note.Heading}', '{note.Content}', '{note.DateTime}')";
+            sqliteCmd.ExecuteNonQuery();
         }
 
-        public List<Note> ReadData(SQLiteConnection conn)
+        public static List<Note> ReadData(SQLiteConnection conn)
         {
             var notesList = new List<Note>();
-            SQLiteDataReader sqlite_datareader;
-            SQLiteCommand sqlite_cmd;
-            sqlite_cmd = conn.CreateCommand();
-            sqlite_cmd.CommandText = $"SELECT * FROM NotesTable";
-            sqlite_datareader = sqlite_cmd.ExecuteReader();
-            while (sqlite_datareader.Read())
+            var sqliteCmd = conn.CreateCommand();
+            sqliteCmd.CommandText = $"SELECT * FROM NotesTable";
+            var sqliteDatareader = sqliteCmd.ExecuteReader();
+            while (sqliteDatareader.Read())
             {
-                var note = new Note(sqlite_datareader.GetString(0), 
-                    sqlite_datareader.GetString(1), 
-                    sqlite_datareader.GetString(2),
-                    DateTime.Parse(sqlite_datareader.GetString(3)));                
+                var note = new Note(sqliteDatareader.GetString(0), 
+                    sqliteDatareader.GetString(1), 
+                    sqliteDatareader.GetString(2),
+                    DateTime.Parse(sqliteDatareader.GetString(3)));                
                 notesList.Add((Note)note);
             }
             return notesList;

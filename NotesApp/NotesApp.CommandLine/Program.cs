@@ -1,23 +1,25 @@
 ﻿using NotesApp.CommandLine.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Reflection;
 
 namespace NotesApp.CommandLine
 {
-    class Program
+    internal static class Program
     {
-        private static void DisplayNotes(List<Note> n)
+        private static void DisplayNotes(SQLiteConnection conn)
         {
+            var n = SqlService.ReadData(conn);
             if (n.Count > 0)
             {
-                for (int i = 0; i < n.Count; i++)
+                for (var i = 0; i < n.Count; i++)
                 {
                     Console.WriteLine($"Index: {i}");
                     Console.WriteLine($"Title: {n[i].Heading}");
                     Console.WriteLine($"Content: {n[i].Content}");
-                    Console.WriteLine($"Date: {n[i].ChangeDateTime}");
-                    for (int j = 0; j < ("Content: ".Length + n[i].Content.Length + 5); j++) Console.Write("-");
+                    Console.WriteLine($"Date: {n[i].DateTime}");
+                    for (var j = 0; j < ("Content: ".Length + n[i].Content.Length + 5); j++) Console.Write("-");
                     Console.WriteLine();
                 }
             } else Console.WriteLine("No notes to display!");
@@ -26,16 +28,20 @@ namespace NotesApp.CommandLine
         static void Main(string[] args)
         {
             var run = true;
-            var notes = new List<Note>();
             
+            
+            var sqlService = new SqlService();
+            var conn = sqlService.CreateConnection();
+            sqlService.CreateTable(conn);
+
             while (run)
             {
                 Console.Write(  
                  @"
                 1.Display notes
                 2.Add note
-                3.Edit note
-                4.Delete note
+                x.Edit note
+                x.Delete note
                 5.Exit
                 >  ");
                 var answer = int.Parse(Console.ReadLine() ?? "1");
@@ -44,8 +50,8 @@ namespace NotesApp.CommandLine
                 switch (answer)
                 {
                     case 1: // Display
-                        Console.WriteLine("Here's your notes:\n");
-                        DisplayNotes(notes);
+                        Console.WriteLine("Here's your notes:");
+                        DisplayNotes(conn);
                         break;
                     case 2: // Add
                         Console.WriteLine("Add note\n------------");
@@ -55,11 +61,12 @@ namespace NotesApp.CommandLine
                         Console.Write("Content\n> ");
                         var body = Console.ReadLine();
 
-                        var note = new Note(Guid.NewGuid(), title, body, DateTime.Now);
-                        notes.Add(note);
+                        var note = new Note(Guid.NewGuid().ToString(), title, body, DateTime.Now);
+                        sqlService.InsertData(conn, note);
+                        // notes.Add(note);
                         break;
-                    case 3: // Edit
-                        DisplayNotes(notes);
+                    /*case 3: // Edit
+                        DisplayNotes(conn);
                         Console.Write("Please type the index of the note you'd like to change\n> ");
                         var toEdit = int.Parse(Console.ReadLine() ?? "0");
                         
@@ -88,7 +95,7 @@ namespace NotesApp.CommandLine
                         
                         notes.RemoveAt(toRemove);
                         Console.WriteLine($"Successfully deleted the note with the index of {toRemove}");
-                        break;
+                        break;*/
                     case 5: // Exit
                         Console.WriteLine("Goodbye.");
                         run = false;
