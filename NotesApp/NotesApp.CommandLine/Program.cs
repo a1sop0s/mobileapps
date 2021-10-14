@@ -16,6 +16,7 @@ namespace NotesApp.CommandLine
                     Console.WriteLine($"Index: {i}");
                     Console.WriteLine($"Title: {n[i].Heading}");
                     Console.WriteLine($"Content: {n[i].Content}");
+                    Console.WriteLine($"Date: {n[i].ChangeDateTime}");
                     for (int j = 0; j < ("Content: ".Length + n[i].Content.Length + 5); j++) Console.Write("-");
                     Console.WriteLine();
                 }
@@ -50,7 +51,7 @@ namespace NotesApp.CommandLine
                         Console.WriteLine("Add note\n------------");
                         Console.Write("Title\n> ");
                         var title = Console.ReadLine();
-                        
+                        Console.WriteLine("---");
                         Console.Write("Content\n> ");
                         var body = Console.ReadLine();
 
