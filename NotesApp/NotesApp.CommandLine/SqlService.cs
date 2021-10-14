@@ -45,6 +45,13 @@ namespace NotesApp.CommandLine
             sqliteCmd.ExecuteNonQuery();
         }
 
+        public void UpdateData(SQLiteConnection conn, Note note, string column, string value)
+        {
+            var sqliteCmd = conn.CreateCommand();
+            sqliteCmd.CommandText = $"UPDATE {_tableName} SET {column} = \"{value}\"";
+            sqliteCmd.ExecuteNonQuery();
+        }
+
         public static List<Note> ReadData(SQLiteConnection conn)
         {
             var notesList = new List<Note>();
@@ -63,6 +70,5 @@ namespace NotesApp.CommandLine
         }
 
         //Modify
-        //Delete
     }
 }

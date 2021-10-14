@@ -39,7 +39,7 @@ namespace NotesApp.CommandLine
                  @"
                 1.Display notes
                 2.Add note
-                x.Edit note
+                3.Edit note
                 4.Delete note
                 5.Exit
                 >  ");
@@ -64,11 +64,13 @@ namespace NotesApp.CommandLine
 
                         var note = new Note(Guid.NewGuid().ToString(), title, body, DateTime.Now);
                         sqlService.InsertData(conn, note);
-                        // notes.Add(note);
+                        
+                        Console.WriteLine($"Successfully created note {title}.");
                         break;
-                    /*case 3: // Edit
+                    case 3: // Edit
                         notes = SqlService.ReadData(conn);
-                        ListNotes(conn);
+                        ListNotes(notes);
+                        
                         Console.Write("Please type the index of the note you'd like to change\n> ");
                         var toEdit = int.Parse(Console.ReadLine() ?? "0");
                         
@@ -79,19 +81,24 @@ namespace NotesApp.CommandLine
                         {
                             case "heading": case "title":
                                 Console.Write("What would you like the new value of Heading to be?\n> ");
-                                notes[toEdit].Heading = Console.ReadLine();
+                                var headValue = Console.ReadLine();
+                                
+                                sqlService.UpdateData(conn, notes[toEdit], "Heading", headValue);// notes[toEdit].Heading = Console.ReadLine();
                                 break;
                             case "content": case "body":
                                 Console.Write("What would you like the new value of Content to be?\n> ");
-                                notes[toEdit].Content = Console.ReadLine();
+                                var contValue = Console.ReadLine();
+                                
+                                sqlService.UpdateData(conn, notes[toEdit], "Content", contValue);
                                 break;
                         }
                         
                         Console.WriteLine($"Successfully edited the note with the index of {toEdit}");
-                        break;*/
+                        break;
                     case 4: // Delete
                         notes = SqlService.ReadData(conn);
                         ListNotes(notes);
+                        
                         Console.Write("Which note would you like to delete?\n> ");
                         var toRemove = int.Parse(Console.ReadLine() ?? "0");
                         Console.WriteLine();
