@@ -10,6 +10,7 @@ namespace NotesApp.CommandLine
 {
     public class SqlService
     {
+        private static string _tableName = "NotesTable";
         public SqlService()
         {
             
@@ -24,7 +25,7 @@ namespace NotesApp.CommandLine
 
         public void CreateTable(SQLiteConnection conn)
         {
-            const string createSql = "CREATE TABLE IF NOT EXISTS NotesTable (id TEXT, heading TEXT, content TEXT, datetime TEXT )";
+            string createSql = $"CREATE TABLE IF NOT EXISTS {_tableName} (id TEXT, heading TEXT, content TEXT, datetime TEXT )";
             var sqliteCmd = conn.CreateCommand();
             sqliteCmd.CommandText = createSql;
             sqliteCmd.ExecuteNonQuery();
@@ -33,7 +34,14 @@ namespace NotesApp.CommandLine
         public void InsertData(SQLiteConnection conn, Note note)
         {
             var sqliteCmd = conn.CreateCommand();
-            sqliteCmd.CommandText = $"INSERT INTO NotesTable (id, heading, content, datetime) VALUES ('{note.Id}', '{note.Heading}', '{note.Content}', '{note.DateTime}')";
+            sqliteCmd.CommandText = $"INSERT INTO {_tableName} (id, heading, content, datetime) VALUES ('{note.Id}', '{note.Heading}', '{note.Content}', '{note.DateTime}')";
+            sqliteCmd.ExecuteNonQuery();
+        }
+
+        public void RemoveData(SQLiteConnection conn, Note note)
+        {
+            var sqliteCmd = conn.CreateCommand();
+            sqliteCmd.CommandText = $"DELETE FROM {_tableName} WHERE id=\"{note.Id}\"";
             sqliteCmd.ExecuteNonQuery();
         }
 
@@ -41,7 +49,7 @@ namespace NotesApp.CommandLine
         {
             var notesList = new List<Note>();
             var sqliteCmd = conn.CreateCommand();
-            sqliteCmd.CommandText = $"SELECT * FROM NotesTable";
+            sqliteCmd.CommandText = $"SELECT * FROM {_tableName}";
             var sqliteDatareader = sqliteCmd.ExecuteReader();
             while (sqliteDatareader.Read())
             {

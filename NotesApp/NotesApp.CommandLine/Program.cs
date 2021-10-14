@@ -8,9 +8,8 @@ namespace NotesApp.CommandLine
 {
     internal static class Program
     {
-        private static void DisplayNotes(SQLiteConnection conn)
+        private static void ListNotes(List<Note> n)
         {
-            var n = SqlService.ReadData(conn);
             if (n.Count > 0)
             {
                 for (var i = 0; i < n.Count; i++)
@@ -41,17 +40,19 @@ namespace NotesApp.CommandLine
                 1.Display notes
                 2.Add note
                 x.Edit note
-                x.Delete note
+                4.Delete note
                 5.Exit
                 >  ");
                 var answer = int.Parse(Console.ReadLine() ?? "1");
                 Console.Clear();
 
+                List<Note> notes;
                 switch (answer)
                 {
                     case 1: // Display
+                        notes = SqlService.ReadData(conn);
                         Console.WriteLine("Here's your notes:");
-                        DisplayNotes(conn);
+                        ListNotes(notes);
                         break;
                     case 2: // Add
                         Console.WriteLine("Add note\n------------");
@@ -66,7 +67,8 @@ namespace NotesApp.CommandLine
                         // notes.Add(note);
                         break;
                     /*case 3: // Edit
-                        DisplayNotes(conn);
+                        notes = SqlService.ReadData(conn);
+                        ListNotes(conn);
                         Console.Write("Please type the index of the note you'd like to change\n> ");
                         var toEdit = int.Parse(Console.ReadLine() ?? "0");
                         
@@ -86,16 +88,17 @@ namespace NotesApp.CommandLine
                         }
                         
                         Console.WriteLine($"Successfully edited the note with the index of {toEdit}");
-                        break;
+                        break;*/
                     case 4: // Delete
-                        DisplayNotes(notes);
+                        notes = SqlService.ReadData(conn);
+                        ListNotes(notes);
                         Console.Write("Which note would you like to delete?\n> ");
                         var toRemove = int.Parse(Console.ReadLine() ?? "0");
                         Console.WriteLine();
                         
-                        notes.RemoveAt(toRemove);
+                        sqlService.RemoveData(conn, notes[toRemove]);
                         Console.WriteLine($"Successfully deleted the note with the index of {toRemove}");
-                        break;*/
+                        break;
                     case 5: // Exit
                         Console.WriteLine("Goodbye.");
                         run = false;
