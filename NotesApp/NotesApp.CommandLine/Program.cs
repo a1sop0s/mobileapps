@@ -73,7 +73,13 @@ namespace NotesApp.CommandLine
                         
                         Console.Write("Please type the index of the note you'd like to change\n> ");
                         var toEdit = int.Parse(Console.ReadLine() ?? "0");
-                        
+
+                        if (toEdit > notes.Count || toEdit < 0)
+                        {
+                            Console.WriteLine($"There is no note with the index of {toEdit}");
+                            break;
+                        } 
+
                         Console.Write("Which field would you like to change? (Heading / Content)\n> ");
                         var fieldChoice = Console.ReadLine()?.ToLower();
                         
@@ -101,8 +107,12 @@ namespace NotesApp.CommandLine
                         
                         Console.Write("Which note would you like to delete?\n> ");
                         var toRemove = int.Parse(Console.ReadLine() ?? "0");
-                        Console.WriteLine();
-                        
+                        if (toRemove > notes.Count || toRemove < 0)
+                        {
+                            Console.WriteLine($"There is no note with the index of {toRemove}");
+                            break;
+                        }
+
                         sqlService.RemoveData(conn, notes[toRemove]);
                         Console.WriteLine($"Successfully deleted the note with the index of {toRemove}");
                         break;
