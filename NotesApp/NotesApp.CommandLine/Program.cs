@@ -59,6 +59,7 @@ namespace NotesApp.CommandLine
                         Console.Write("Title\n> ");
                         var title = Console.ReadLine();
                         Console.WriteLine("---");
+                        
                         Console.Write("Content\n> ");
                         var body = Console.ReadLine();
 
