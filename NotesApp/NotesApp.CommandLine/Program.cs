@@ -1,8 +1,7 @@
 ﻿using NotesApp.CommandLine.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Reflection;
+using static System.Guid;
 
 namespace NotesApp.CommandLine
 {
@@ -24,7 +23,7 @@ namespace NotesApp.CommandLine
             } else Console.WriteLine("No notes to display!");
         }
         
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var run = true;
             
@@ -37,24 +36,24 @@ namespace NotesApp.CommandLine
             {
                 Console.Write(  
                  @"
-                1.Display notes
-                2.Add note
-                3.Edit note
-                4.Delete note
-                5.Exit
+                display - Display notes
+                add - Add note
+                edit - Edit note
+                delete - Delete note
+                exit - Exit the app
                 >  ");
-                var answer = int.Parse(Console.ReadLine() ?? "1");
+                var answer = Console.ReadLine()?.ToLower() ?? "add";
                 Console.Clear();
 
                 List<Note> notes;
                 switch (answer)
                 {
-                    case 1: // Display
+                    default: // Display notes
                         notes = SqlService.ReadData(conn);
                         Console.WriteLine("Here's your notes:");
                         ListNotes(notes);
                         break;
-                    case 2: // Add
+                    case "add":
                         Console.WriteLine("Add note\n------------");
                         Console.Write("Title\n> ");
                         var title = Console.ReadLine();
@@ -63,12 +62,12 @@ namespace NotesApp.CommandLine
                         Console.Write("Content\n> ");
                         var body = Console.ReadLine();
 
-                        var note = new Note(Guid.NewGuid().ToString(), title, body, DateTime.Now);
+                        var note = new Note(NewGuid().ToString(), title, body, DateTime.Now);
                         sqlService.InsertData(conn, note);
                         
                         Console.WriteLine($"Successfully created note {title}.");
                         break;
-                    case 3: // Edit
+                    case "edit":
                         notes = SqlService.ReadData(conn);
                         ListNotes(notes);
                         
@@ -90,19 +89,19 @@ namespace NotesApp.CommandLine
                                 Console.Write("What would you like the new value of Heading to be?\n> ");
                                 var headValue = Console.ReadLine();
                                 
-                                sqlService.UpdateData(conn, notes[toEdit], "Heading", headValue);// notes[toEdit].Heading = Console.ReadLine();
+                                sqlService.UpdateData(conn, notes[toEdit], "Heading", headValue);
                                 break;
                             case "content": case "body":
                                 Console.Write("What would you like the new value of Content to be?\n> ");
                                 var contValue = Console.ReadLine();
-                                
+
                                 sqlService.UpdateData(conn, notes[toEdit], "Content", contValue);
                                 break;
                         }
                         
                         Console.WriteLine($"Successfully edited the note with the index of {toEdit}");
                         break;
-                    case 4: // Delete
+                    case "delete":
                         notes = SqlService.ReadData(conn);
                         ListNotes(notes);
                         
@@ -117,12 +116,9 @@ namespace NotesApp.CommandLine
                         sqlService.RemoveData(conn, notes[toRemove]);
                         Console.WriteLine($"Successfully deleted the note with the index of {toRemove}");
                         break;
-                    case 5: // Exit
+                    case "exit":
                         Console.WriteLine("Goodbye.");
                         run = false;
-                        break;
-                    default:
-                        Console.WriteLine();
                         break;
                 }
             }            
