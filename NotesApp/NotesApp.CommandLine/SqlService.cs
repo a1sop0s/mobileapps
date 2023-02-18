@@ -48,7 +48,7 @@ namespace NotesApp.CommandLine
         public void UpdateData(SQLiteConnection conn, Note note, string column, string value)
         {
             var sqliteCmd = conn.CreateCommand();
-            sqliteCmd.CommandText = $"UPDATE {_tableName} SET {column} = \"{value}\"";
+            sqliteCmd.CommandText = $"UPDATE {_tableName} SET {column} = \"{value}\" WHERE id=\"{note.Id}\"";
             sqliteCmd.ExecuteNonQuery();
         }
 
